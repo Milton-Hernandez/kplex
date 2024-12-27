@@ -2,23 +2,23 @@
 import logging
 import sys
 
-from config.settings import Settings
-from data import DataBook, DataTable
-from util import Log
+from kplex.utils.settings import Settings
+from kplex.tools.data import DataBook, DataTable
+from kplex.utils.o11y import Log
 
 if __name__ == '__main__':
-    log = Log(logging.DEBUG)
+    log = Log('DEBUG')
     settings = Settings()
     settings.init_fs()
-    settings.addtional = 'additional'
-    print(settings.base_dir)
-    print(settings.data_dir)
-    print(settings.log_dir)
-    print(settings.model_dir)
-    print(settings.app_name)
-    print(settings.addtional)
-    print(settings.any_var)
-    print(settings.all_vars)
+    settings.additional = 'additional'
+    log.info('This is an info message')
+    set2 = Settings()
+    log.info(set2.base_dir)
+    log.info(set2.data_dir)
+    log.info(set2.log_dir)
+    log.info(set2.model_dir)
+    log.info(set2.app_name)
+    log.debug(set2.additional)
 
     dt = DataTable({'A': [1, 2, 3], 'B': [4, 5, 6]},'tbl1')
     db = DataBook()
