@@ -4,6 +4,9 @@ from kplex.utils.settings import Settings
 from kplex.tools.data import DataBook, DataTable
 from kplex.utils.o11y import Log
 
+
+
+
 if __name__ == '__main__':
     log = Log('debug')
     settings = Settings()
@@ -29,4 +32,8 @@ if __name__ == '__main__':
     db.train.df.info()  
     db.train.rename('train_data')
     db.train_data.df.info()
+
+
+    api = KaggleApi()
+    api.authenticate()
 
