@@ -29,4 +29,4 @@ if __name__ == '__main__':
     db.train.df.info()  
     db.train.rename('train_data')
     db.train_data.df.info()
-    db.train.info()
+
