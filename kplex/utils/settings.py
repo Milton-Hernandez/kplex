@@ -10,24 +10,33 @@ class Settings:
             cls._instance = super(Settings, cls).__new__(cls)
         return cls._instance
 
-    base_dir = '~/kplex'
+    base_dir =  os.path.expanduser("~")
     app_name = 'default'
 
     @property
     def data_dir(self):
-        return self.base_dir + self._data_dir
+        if(self.base_dir.find('\\') >= 0):
+            return self.base_dir + '\\' + self._data_dir
+        else:
+            return self.base_dir + '/' + self._data_dir
 
     @property
     def log_dir(self):
-        return self.base_dir + self._log_dir
+         if(self.base_dir.find('\\') >= 0):
+            return self.base_dir + '\\' + self._log_dir
+         else:
+             return self.base_dir + '/' + self._log_dir 
 
     @property
     def model_dir(self):
-        return self.base_dir + self._model_dir
+         if(self.base_dir.find('\\') >= 0):
+            return self.base_dir + '\\' + self._model_dir
+         else:
+            return self.base_dir + '/' + self._model_dir
 
-    _data_dir = '/data'
-    _log_dir = '/log'
-    _model_dir = '/models'
+    _data_dir = 'data'
+    _log_dir = 'log'
+    _model_dir = 'models'
 
     def parse_app_name(self):
         name = self.app_name

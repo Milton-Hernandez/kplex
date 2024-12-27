@@ -7,7 +7,7 @@ from kplex.tools.data import DataBook, DataTable
 from kplex.utils.o11y import Log
 
 if __name__ == '__main__':
-    log = Log('DEBUG')
+    log = Log('debug')
     settings = Settings()
     settings.init_fs()
     settings.additional = 'additional'

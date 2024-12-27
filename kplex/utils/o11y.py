@@ -7,7 +7,7 @@ class Log:
     __instance = None
 
     def __new__(cls, log_level_str='INFO'):
-        log_level = getattr(logging, log_level_str)
+        log_level = getattr(logging, log_level_str.upper())  
         if Log.__instance is None:
             Log.__instance = object.__new__(cls)
             Log.__instance.log_level = log_level
