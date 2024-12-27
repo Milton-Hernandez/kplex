@@ -55,6 +55,12 @@ class Settings:
                 token = token.replace('-', '')
                 setattr(self, token, sys.argv[i + 1])
 
+    def full_path(self,file_path,file_name):
+        if(file_path.find('\\') >= 0):
+            return file_path + '\\' + file_name
+        else:
+            return file_path + '/' + file_name 
+
     def init_fs(self):
         if not os.path.exists(self.base_dir):
             os.makedirs(self.base_dir)
