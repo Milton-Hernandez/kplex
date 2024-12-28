@@ -34,6 +34,4 @@ if __name__ == '__main__':
     db.train_data.df.info()
 
 
-    api = KaggleApi()
-    api.authenticate()
 
