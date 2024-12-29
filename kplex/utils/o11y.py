@@ -1,34 +1,38 @@
-#Singleton class to implement a logger that can take the log level as a constructor argument and implements the debug, info, warning and error methods
-
+from enum import Enum
 import logging
 
-#Singleton class to implement a logger that can take the log level as a constructor argument and implements the debug, info, warning and error methods
-class Log:
-    __instance = None
+class Log:  
+    DEBUG = logging.DEBUG
+    INFO = logging.INFO
+    WARNING = logging.WARNING
+    ERROR = logging.ERROR
+    CRITICAL = logging.CRITICAL    
 
-    def __new__(cls, log_level_str='INFO'):
-        log_level = getattr(logging, log_level_str.upper())  
-        if Log.__instance is None:
-            Log.__instance = object.__new__(cls)
-            Log.__instance.log_level = log_level
-            Log.__instance.logger = logging.getLogger()
-            Log.__instance.logger.setLevel(log_level)
-            Log.__instance.formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-            Log.__instance.console_handler = logging.StreamHandler()
-            Log.__instance.console_handler.setFormatter(Log.__instance.formatter)
-            Log.__instance.logger.addHandler(Log.__instance.console_handler)
-        else:
-            Log.__instance.log_level = log_level
-            Log.__instance.logger.setLevel(log_level)
-            Log.__instance.console_handler.setLevel(log_level)
-        return Log.__instance
+    to = None
+    def all_off(self):
+        self._debug_on = False
+        self._info_on = False
+        self._warning_on = False
+        self._error_on = False
+  
+    def set_level(self,log_level):
+        self.all_off()
+        if(log_level == logging.DEBUG):
+            self._debug_on = self.info_on = self.warning_on = self.error_on = True
+        if (log_level == logging.INFO):
+            self._info_on = self.warning_on = self.error_on = True
+        if (log_level == logging.WARNING):    
+            self._warning_on = self.error_on = True
+        if (log_level == logging.ERROR):  
+            self._error_on = True
+        self.logger.setLevel(log_level)    
 
     def debug(self, message):
-        if self.log_level == logging.DEBUG:
+        if self._debug_on:
             self.logger.debug(message)
 
     def info(self, message):
-        if self.log_level <= logging.INFO:
+        if self._info_on:
             self.logger.info(message)
 
     def warning(self, message):
@@ -37,4 +41,19 @@ class Log:
 
     def error(self, message):
         if self.log_level <= logging.ERROR:
-            self.logger.error(message)
+           self.logger.error(message)
+
+class SimpleLog(Log):
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+  
+    def __init__(self, log_level_str='INFO'):
+        self.log_level = getattr(logging, log_level_str.upper())  
+        self.logger = logging.getLogger()
+        self.set_level(self.log_level)
+        self.logger.formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+        self.logger.console_handler = logging.StreamHandler()
+        self.logger.console_handler.setFormatter(self.formatter)
+        self.logger.addHandler(self.logger.console_handler)
+
+if Log.to == None:
+    Log.to = SimpleLog()

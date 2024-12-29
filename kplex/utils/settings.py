@@ -3,14 +3,14 @@ import sys
 import tempfile
 
 class Settings:
-    _instance = None
+    props = None
 
     def __new__(cls, *args, **kwargs):
-        if cls._instance is None:
-            cls._instance = super(Settings, cls).__new__(cls)
-        return cls._instance
+        if cls.props is None:
+            cls.props = super(Settings, cls).__new__(cls)
+        return cls.props
 
-    base_dir =  os.path.expanduser("~")
+    base_dir =  "."
     app_name = 'default'
 
     @property
